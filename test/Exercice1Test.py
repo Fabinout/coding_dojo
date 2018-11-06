@@ -41,5 +41,6 @@ class Exercice1Test(unittest.TestCase):
         nextCell = cell.nextStep()
         self.assertTrue(nextCell.isAlive())
 
+
 if __name__ == '__main__':
     unittest.main()

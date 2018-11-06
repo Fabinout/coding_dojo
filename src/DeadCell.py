@@ -1,6 +1,3 @@
-from src.LivingCell import LivingCell
-
-
 class DeadCell(object):
 
     def __init__(self):
@@ -18,7 +15,8 @@ class DeadCell(object):
 
     def nextStep(self):
         if self._countAliveNeighbors() == 3:
-            return self
+            from src.LivingCell import LivingCell
+            return LivingCell()
         return self
 
     def _countAliveNeighbors(self):
