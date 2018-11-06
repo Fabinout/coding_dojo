@@ -1,40 +1,45 @@
+from src.DeadCell import DeadCell
+from src.LivingCell import LivingCell
+
 __author__ = 'fabienlamarque'
 
 import unittest
-from src.exercice1 import calculatestairs
-from src.exercice1 import basemententrance
-from utils.FileReader import readfile
 
 
 class Exercice1Test(unittest.TestCase):
+
     def test_testFramework(self):
         self.assertEquals(0, 0)
 
-    def test_unit(self):
-        self.assertEquals(calculatestairs(""), 0)
+    def test_une_cellule_vivante_avec_moins_de_deux_voisins_meurt(self):
+        cell = LivingCell().withNeighbors(LivingCell())
+        nextCell = cell.nextStep()
+        self.assertTrue(nextCell.isDead())
 
-    def test_upstairs(self):
-        self.assertEquals(calculatestairs("("), 1)
+    def test_une_cellule_vivante_avec_exactement_deux_voisins_survit(self):
+        cell = LivingCell().withNeighbors(LivingCell(), LivingCell())
+        nextCell = cell.nextStep()
+        self.assertTrue(nextCell.isAlive())
 
-    def test_downstairs(self):
-        self.assertEquals(calculatestairs(")"), -1)
+    def test_une_cellule_vivante_vavec_une_cellule_vivante_et_une_morte_meurt(self):
+        cell = LivingCell().withNeighbors(LivingCell(), DeadCell())
+        nextCell = cell.nextStep()
+        self.assertTrue(nextCell.isDead())
 
-    def test_two_stairs_up_one_stair_down(self):
-        self.assertEquals(calculatestairs("(()"), 1)
+    def test_une_cellule_vivante_avec_trois_cellule_vivante_survit(self):
+        cell = LivingCell().withNeighbors(LivingCell(), LivingCell(), LivingCell())
+        nextCell = cell.nextStep()
+        self.assertTrue(nextCell.isAlive())
 
-    def test_calculate_stairs_with_file(self):
-        self.assertEquals(calculatestairs(readfile("resources/1x1.txt")), 280)
+    def test_une_cellule_morte_avec_deux_voisins_vivants_reste_morte(self):
+        cell = DeadCell().withNeighbors(LivingCell(), LivingCell())
+        nextCell = cell.nextStep()
+        self.assertTrue(nextCell.isDead)
 
-    def test_direct_basement_entrance(self):
-        self.assertEquals(basemententrance(")"), 1)
-
-    def test_basement_third_step(self):
-        self.assertEquals(basemententrance("())"), 3)
-
-    def test_basement_entrance_with_file(self):
-        self.assertEquals(basemententrance(readfile("resources/1x1.txt")), 1797)
-
-
+    def test_cellule_morte_renait_si_3_voisins_vivants(self):
+        cell = DeadCell().withNeighbors(LivingCell(), LivingCell(), LivingCell())
+        nextCell = cell.nextStep()
+        self.assertTrue(nextCell.isAlive())
 
 if __name__ == '__main__':
     unittest.main()
