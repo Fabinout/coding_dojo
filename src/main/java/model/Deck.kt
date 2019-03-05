@@ -4,7 +4,7 @@ class Deck(private val cards : MutableList<Card>) {
 
     fun size() : Int = cards.size
 
-    fun shuffle(): Unit {
+    fun shuffle() {
         cards.shuffle()
     }
 
